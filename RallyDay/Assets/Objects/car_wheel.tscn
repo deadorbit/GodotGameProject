@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://u300sf5gljn"]
+
+[ext_resource type="Texture2D" uid="uid://dv8o23muvf6yn" path="res://Assets/Sprites/PlayerVehicles/Common/Tire.png" id="1_7i5a8"]
+[ext_resource type="Script" path="res://Assets/Objects/car_wheel.gd" id="1_p1if1"]
+[ext_resource type="Texture2D" uid="uid://db38visa7lu5y" path="res://Assets/Particles/kenney_particle_pack/dirt_01.png" id="3_toajn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2sies"]
+size = Vector2(150.733, 204.611)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sodt8"]
+emission_shape = 1
+emission_sphere_radius = 20.0
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(0, 10, 0)
+spread = 0.0
+initial_velocity_min = 250.0
+initial_velocity_max = 250.0
+angular_velocity_max = 20.0
+gravity = Vector3(0, 0, 0)
+linear_accel_max = 30.0
+scale_min = 0.08
+scale_max = 0.08
+
+[node name="CarWheel" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_p1if1")
+
+[node name="FLWheelCollider" type="CollisionShape2D" parent="."]
+z_index = -1
+position = Vector2(0.514587, 0.132462)
+shape = SubResource("RectangleShape2D_2sies")
+
+[node name="Wheel" type="Sprite2D" parent="."]
+scale = Vector2(0.4, 0.25)
+texture = ExtResource("1_7i5a8")
+
+[node name="DirtEmitter" type="GPUParticles2D" parent="."]
+modulate = Color(0.121569, 0.0823529, 0.0156863, 1)
+z_index = -1
+position = Vector2(3.39221, 45.1194)
+emitting = false
+amount = 25
+process_material = SubResource("ParticleProcessMaterial_sodt8")
+texture = ExtResource("3_toajn")
+lifetime = 3.0

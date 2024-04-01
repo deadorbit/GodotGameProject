@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://wdkruc7yri6d"]
+
+[ext_resource type="PackedScene" uid="uid://8oero4ukwgjt" path="res://Assets/Objects/PlayerVehicles/car_base.tscn" id="1_ydicd"]
+[ext_resource type="Texture2D" uid="uid://b7up30wula7ot" path="res://Assets/Sprites/PlayerVehicles/SuburuWRX2004/SuburuWRX2004.png" id="2_qckx3"]
+[ext_resource type="Curve" uid="uid://bcb24e22og0o" path="res://Assets/Engines/SuburuWRXCurve.tres" id="2_ybusj"]
+[ext_resource type="Texture2D" uid="uid://lcjse1hj8g18" path="res://Assets/Sprites/UI/Gauges/WRX/WRXRPMGauge.png" id="3_3rcfe"]
+[ext_resource type="Texture2D" uid="uid://ccyiay57yfq8s" path="res://Assets/Sprites/UI/Gauges/WRX/WRXNeedle.png" id="4_1lq8h"]
+[ext_resource type="Texture2D" uid="uid://rlqw0ae27mvm" path="res://Assets/Sprites/UI/Gauges/WRX/WRXLight.png" id="5_nljee"]
+[ext_resource type="Texture2D" uid="uid://bq0neywrtvffi" path="res://Assets/Sprites/UI/Gauges/WRX/WRXSpeedometer.png" id="6_8f8ns"]
+[ext_resource type="Texture2D" uid="uid://d1lp18oyrsg81" path="res://Assets/Sprites/UI/Gauges/WRX/WRXSpeedometerNeedle.png" id="7_dutw8"]
+[ext_resource type="Texture2D" uid="uid://dhjhd43e1uax3" path="res://Assets/Sprites/UI/Gauges/WRX/WRXElectronic.png" id="8_hv50f"]
+
+[node name="SuburuWRX" instance=ExtResource("1_ydicd")]
+position = Vector2(0, 40)
+turn_speed = 20
+maxSteeringAngle = 60
+RPMCurve = ExtResource("2_ybusj")
+gearRatios = [3.454, 1.947, 1.366, 0.972, 0.738]
+RPMLimit = 7000
+enginePower = 0.3
+bodyWeight = 10
+RPMGauge = ExtResource("3_3rcfe")
+RPMNeedle = ExtResource("4_1lq8h")
+RPMLight = ExtResource("5_nljee")
+SpeedometerGauge = ExtResource("6_8f8ns")
+SpeedometerNeedle = ExtResource("7_dutw8")
+SpeedometerElectronic = ExtResource("8_hv50f")
+maxRPMGaugeAngle = 252
+
+[node name="LeftWheel" parent="FrontWheels" index="0"]
+isDrivingWheel = true
+powerBias = 0.5
+
+[node name="RightWheel" parent="FrontWheels" index="1"]
+position = Vector2(27.5551, 2)
+isDrivingWheel = true
+powerBias = 0.5
+
+[node name="LeftWheel" parent="RearWheels" index="0"]
+position = Vector2(-34, 0)
+
+[node name="RigthWheel" parent="RearWheels" index="1"]
+position = Vector2(30, 0)
+
+[node name="CarHull" parent="." index="2"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_qckx3")
+
+[node name="FrontBumper" parent="." index="3"]
+polygon = PackedVector2Array(37.1416, -62.2762, 33.5431, -72.7768, 31.4194, -76.9652, 28.1159, -79.7379, 24.5173, -81.9796, 17.0253, -83.5724, 10.9798, -84.6385, -11.4089, -84.6342, -17.0131, -83.3954, -21.7915, -82.9824, -27.2251, -80.6227, -30.8826, -77.0832, -32.6523, -74.5466, -34.4811, -70.5941, -37.2709, -61.7629)
+
+[node name="RearBumper" parent="." index="4"]
+polygon = PackedVector2Array(42.7095, 96.9515, -42.4665, 97.3819, -42.1563, 102.031, -40.188, 108.902, -39.9515, 116.656, -38.2408, 119.016, 16.091, 119.311, 38.4118, 118.898, 39.8866, 116.597, 40.1226, 107.925, 42.0952, 102.094)
+
+[node name="SideLower" parent="." index="5"]
+polygon = PackedVector2Array(42.5307, 96.8843, 43.3725, 88.1151, 43.9338, 76.4695, 43.7233, 64.8941, 43.3024, 51.8348, 42.2501, 35.8397, 39.935, -11.0039, -40.2267, -10.8635, -41.7701, 27.7912, -43.7344, 63.6506, -43.8747, 77.4816, -43.4538, 89.057, -42.4014, 97.4053)
+
+[node name="SideUpper" parent="." index="6"]
+polygon = PackedVector2Array(40.1391, 56.2735, -40.3684, 56.1901, -39.2162, 37.6406, -40.077, 29.0987, -39.8277, 18.3476, -37.0033, 5.192, 37.2478, 4.96902, 38.5787, 10.9075, 39.8974, 20.8629, 39.9966, 28.8495, 39.1533, 37.6794)
+
+[node name="Camera2D" parent="." index="7"]
+position = Vector2(-10, -446.885)
+zoom = Vector2(0.5, 0.5)
+
+[node name="WheelAngle" parent="Debug" index="0"]
+position = Vector2(0, -0.333344)

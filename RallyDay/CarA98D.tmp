@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0p0uobgmu1ol"]
+
+[ext_resource type="Script" path="res://CarTestScene.gd" id="1_k51d7"]
+[ext_resource type="Texture2D" uid="uid://dvg3duer2wct1" path="res://icon.svg" id="1_p2vb2"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sr8ap"]
+radius = 61.7931
+height = 141.241
+
+[node name="Carbody" type="CharacterBody2D"]
+script = ExtResource("1_k51d7")
+
+[node name="CarHull" type="Sprite2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(6, -40, 31, -29, 32, 5, 25, 34, -2, 36, -25, 31, -36, -11, -20, -27)
+
+[node name="FrontWheels" type="Node2D" parent="."]
+position = Vector2(0, -24)
+
+[node name="LeftWheel" type="StaticBody2D" parent="FrontWheels"]
+position = Vector2(-25, 2)
+scale = Vector2(0.101563, 0.226563)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FrontWheels/LeftWheel"]
+shape = SubResource("CapsuleShape2D_sr8ap")
+
+[node name="Sprite2D" type="Sprite2D" parent="FrontWheels/LeftWheel"]
+texture = ExtResource("1_p2vb2")
+
+[node name="RighWheel" type="StaticBody2D" parent="FrontWheels"]
+position = Vector2(27, 1)
+scale = Vector2(0.101563, 0.226563)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FrontWheels/RighWheel"]
+shape = SubResource("CapsuleShape2D_sr8ap")
+
+[node name="Sprite2D" type="Sprite2D" parent="FrontWheels/RighWheel"]
+texture = ExtResource("1_p2vb2")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2

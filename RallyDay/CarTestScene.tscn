@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0p0uobgmu1ol"]
+
+[ext_resource type="PackedScene" uid="uid://wdkruc7yri6d" path="res://Assets/Objects/PlayerVehicles/SuburuWRX/suburu_wrx.tscn" id="1_3exke"]
+[ext_resource type="Script" path="res://CarTestPlace.gd" id="1_ewxe2"]
+[ext_resource type="Texture2D" uid="uid://c2fhlxapjgktn" path="res://Assets/Sprites/Common/R.png" id="3_8somd"]
+
+[node name="CarTestPlace" type="Node2D"]
+script = ExtResource("1_ewxe2")
+
+[node name="SuburuWRX" parent="." instance=ExtResource("1_3exke")]
+position = Vector2(60.9812, 125.94)
+enginePower = 0.2
+bodyWeight = 200
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -2
+texture_repeat = 2
+position = Vector2(108, 148)
+texture = ExtResource("3_8somd")
+offset = Vector2(-91, -134)
+region_enabled = true
+region_rect = Rect2(-16.8308, -16.2923, 19371.9, 19211.3)

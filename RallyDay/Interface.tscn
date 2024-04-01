@@ -1,0 +1,182 @@
+[gd_scene load_steps=9 format=3 uid="uid://bqu74wp77bj4o"]
+
+[ext_resource type="Script" path="res://Interface.gd" id="1_hek3f"]
+[ext_resource type="Texture2D" uid="uid://lcjse1hj8g18" path="res://Assets/Sprites/UI/Gauges/WRX/WRXRPMGauge.png" id="2_3vpky"]
+[ext_resource type="Texture2D" uid="uid://ccyiay57yfq8s" path="res://Assets/Sprites/UI/Gauges/WRX/WRXNeedle.png" id="3_xs2st"]
+[ext_resource type="Texture2D" uid="uid://rlqw0ae27mvm" path="res://Assets/Sprites/UI/Gauges/WRX/WRXLight.png" id="4_gg6nm"]
+[ext_resource type="Texture2D" uid="uid://bq0neywrtvffi" path="res://Assets/Sprites/UI/Gauges/WRX/WRXSpeedometer.png" id="5_h8lv0"]
+[ext_resource type="Texture2D" uid="uid://d1lp18oyrsg81" path="res://Assets/Sprites/UI/Gauges/WRX/WRXSpeedometerNeedle.png" id="6_akfnh"]
+[ext_resource type="Texture2D" uid="uid://dhjhd43e1uax3" path="res://Assets/Sprites/UI/Gauges/WRX/WRXElectronic.png" id="7_7iqn4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fslhh"]
+
+[node name="Interface" type="CanvasLayer"]
+script = ExtResource("1_hek3f")
+
+[node name="RPMBar" type="ProgressBar" parent="."]
+visible = false
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -161.0
+offset_top = -451.0
+offset_right = -121.0
+offset_bottom = -51.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.2
+fill_mode = 3
+show_percentage = false
+
+[node name="SpeedBar" type="ProgressBar" parent="."]
+visible = false
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -210.0
+offset_top = -451.0
+offset_right = -170.0
+offset_bottom = -51.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 300.0
+step = 1.0
+fill_mode = 3
+show_percentage = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -78.0
+offset_right = 329.0
+offset_bottom = -1.0
+grow_vertical = 0
+
+[node name="Text" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="GearInfo" type="Label" parent="HBoxContainer/Text"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Gear: 1"
+label_settings = SubResource("LabelSettings_fslhh")
+
+[node name="PowerInfo" type="Label" parent="HBoxContainer/Text"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Power: 0"
+label_settings = SubResource("LabelSettings_fslhh")
+
+[node name="SpeedText" type="Label" parent="HBoxContainer/Text"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Speed: 0"
+label_settings = SubResource("LabelSettings_fslhh")
+
+[node name="Traction" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Left" type="VBoxContainer" parent="HBoxContainer/Traction"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Front" type="Label" parent="HBoxContainer/Traction/Left"]
+layout_mode = 2
+text = "FL: 0.01"
+
+[node name="Rear" type="Label" parent="HBoxContainer/Traction/Left"]
+layout_mode = 2
+text = "RL: 0.01"
+
+[node name="Right" type="VBoxContainer" parent="HBoxContainer/Traction"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Front" type="Label" parent="HBoxContainer/Traction/Right"]
+layout_mode = 2
+text = "FR: 0.01"
+
+[node name="Rear" type="Label" parent="HBoxContainer/Traction/Right"]
+layout_mode = 2
+text = "RR: 0.01"
+
+[node name="RPMGauge" type="TextureRect" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -143.0
+offset_top = -138.0
+offset_right = 213.0
+offset_bottom = 208.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_3vpky")
+
+[node name="Needle" type="TextureRect" parent="RPMGauge"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -178.0
+offset_top = -173.0
+offset_right = 178.0
+offset_bottom = 173.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(178, 172)
+texture = ExtResource("3_xs2st")
+
+[node name="Light" type="TextureRect" parent="RPMGauge"]
+layout_mode = 0
+offset_right = 356.0
+offset_bottom = 346.0
+texture = ExtResource("4_gg6nm")
+
+[node name="SpeedometerGauge" type="TextureRect" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -359.0
+offset_top = -213.0
+offset_right = -75.0
+offset_bottom = 71.0001
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.75, 0.75)
+size_flags_horizontal = 3
+texture = ExtResource("5_h8lv0")
+
+[node name="Needle" type="TextureRect" parent="SpeedometerGauge"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+pivot_offset = Vector2(142, 142)
+texture = ExtResource("6_akfnh")
+
+[node name="Electronic" type="TextureRect" parent="SpeedometerGauge"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("7_7iqn4")
+
+[connection signal="gearChanged" from="." to="." method="_on_gear_changed"]
+[connection signal="menuUpdated" from="." to="." method="_on_menu_updated"]

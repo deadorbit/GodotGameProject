@@ -1,0 +1,70 @@
+[gd_scene load_steps=4 format=3 uid="uid://8oero4ukwgjt"]
+
+[ext_resource type="Script" path="res://Assets/Objects/PlayerVehicles/car_base.gd" id="1_v4eur"]
+[ext_resource type="PackedScene" uid="uid://u300sf5gljn" path="res://Assets/Objects/car_wheel.tscn" id="2_s54dr"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_asi8j"]
+
+[node name="CarBase" type="CharacterBody2D"]
+script = ExtResource("1_v4eur")
+
+[node name="FrontWheels" type="Node2D" parent="."]
+position = Vector2(0, -40)
+
+[node name="LeftWheel" parent="FrontWheels" instance=ExtResource("2_s54dr")]
+position = Vector2(-28, 2)
+scale = Vector2(0.2, 0.2)
+
+[node name="RightWheel" parent="FrontWheels" instance=ExtResource("2_s54dr")]
+position = Vector2(28, 2)
+scale = Vector2(0.2, 0.2)
+
+[node name="RearWheels" type="Node2D" parent="."]
+position = Vector2(2, 74)
+
+[node name="LeftWheel" parent="RearWheels" instance=ExtResource("2_s54dr")]
+position = Vector2(-31, 0)
+scale = Vector2(0.2, 0.2)
+
+[node name="RigthWheel" parent="RearWheels" instance=ExtResource("2_s54dr")]
+position = Vector2(27, 0)
+scale = Vector2(0.2, 0.2)
+
+[node name="CarHull" type="Sprite2D" parent="."]
+position = Vector2(-5.96046e-08, 17)
+scale = Vector2(75, 159)
+texture = SubResource("PlaceholderTexture2D_asi8j")
+
+[node name="FrontBumper" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(37, -44, 36, -63, -34, -62, -37, -43)
+
+[node name="RearBumper" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(37, 96, 38, 76, -37, 77, -38, 96)
+
+[node name="SideLower" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(37, 76, 37, 23, -38, 23, -37, 77)
+
+[node name="SideUpper" type="CollisionPolygon2D" parent="."]
+visible = false
+position = Vector2(0, -67)
+polygon = PackedVector2Array(38, 90, 37, 23, -38, 23, -38, 91)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-10, -930)
+ignore_rotation = false
+zoom = Vector2(0.25, 0.25)
+
+[node name="Debug" type="Node2D" parent="."]
+
+[node name="WheelAngle" type="Line2D" parent="Debug"]
+z_index = 10
+width = 2.0
+default_color = Color(0, 0.815686, 0, 1)
+
+[node name="VelocityAngle" type="Line2D" parent="Debug"]
+z_index = 10
+width = 2.0
+default_color = Color(0, 0, 0.858824, 1)

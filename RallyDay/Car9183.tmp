@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0p0uobgmu1ol"]
+
+[ext_resource type="PackedScene" uid="uid://wdkruc7yri6d" path="res://Assets/Objects/PlayerVehicles/SuburuWRX/suburu_wrx.tscn" id="1_3exke"]
+[ext_resource type="Script" path="res://CarTestPlace.gd" id="1_ewxe2"]
+
+[node name="CarTestPlace" type="Node2D"]
+script = ExtResource("1_ewxe2")
+
+[node name="SuburuWRX" parent="." instance=ExtResource("1_3exke")]
+position = Vector2(60.9812, 125.94)
+
+[connection signal="RPMChange" from="SuburuWRX" to="SuburuWRX" method="_on_rpm_change"]
