@@ -6,6 +6,7 @@ var playerSpeed: int = 0
 var playerDelta: float = 0.01
 var playerMaxRPMGaugeAngle: int = 0
 var playerMaxSpeedometerAngle: int = 0
+var playerWheels: Array = []
 
 #var playerRPM = 0:
 	#get:

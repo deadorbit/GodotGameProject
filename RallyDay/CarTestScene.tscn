@@ -8,9 +8,7 @@
 script = ExtResource("1_ewxe2")
 
 [node name="SuburuWRX" parent="." instance=ExtResource("1_3exke")]
-position = Vector2(60.9812, 125.94)
-enginePower = 0.2
-bodyWeight = 200
+position = Vector2(833.508, -27.2676)
 
 [node name="Ground" type="Sprite2D" parent="."]
 z_index = -2

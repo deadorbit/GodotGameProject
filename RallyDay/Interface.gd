@@ -52,4 +52,7 @@ func _UpdateRPMGauge(RPM, gearLimit):
 		RPMLight.modulate = RPMLightOff
 
 	# Update rotation using global delta
-	RPMNeedle.rotation_degrees = lerp(RPMNeedle.rotation_degrees, revAngle, 0.5 * Globals.playerDelta)
+	RPMNeedle.rotation_degrees = lerp(RPMNeedle.rotation_degrees, revAngle, 1 * Globals.playerDelta)
+	
+func _UpdateSpeedometerGauge(speed):
+	var speedPercent = 0.0

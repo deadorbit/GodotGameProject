@@ -68,3 +68,8 @@ default_color = Color(0, 0.815686, 0, 1)
 z_index = 10
 width = 2.0
 default_color = Color(0, 0, 0.858824, 1)
+
+[node name="TurningAngle" type="Line2D" parent="Debug"]
+z_index = 10
+width = 2.0
+default_color = Color(0.988235, 0.94902, 0.0627451, 1)

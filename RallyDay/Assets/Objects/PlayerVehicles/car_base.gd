@@ -8,8 +8,9 @@ const ACCELERATION_RATE = 0.25  # Adjust this for how quickly the car accelerate
 const FRICTION_COEFFICENT = 1
 const SPEED_FACTOR = 50 ## Adjust this to change raw power values of engine
 const MAX_TORQUE = 5.0 ## Hard limit on the maximal rotational velocity that can be achieved
-const TORQUE_FACTOR = 0.05 ## Changes effectviness of rotating the body
+const TORQUE_FACTOR = 0.01 ## Changes effectviness of rotating the body effectivly how fast the body matches the wheels
 const BASE_ANGULAR_FRICTION = 5 ## decrease in rotational velocity over over
+const MIN_TORQUE = 0.001 ##Minimum force to continue rotating
 
 @export var turn_speed: int ## Maximum turn speed of car wheels towards user input
 @export var maxSteeringAngle: int
@@ -17,7 +18,7 @@ const BASE_ANGULAR_FRICTION = 5 ## decrease in rotational velocity over over
 @export var gearRatios: Array
 @export var RPMLimit: int
 @export var enginePower: float
-@export var bodyWeight: int
+@export var bodyWeight: int = 100
 @export var maxSpeed: int
 @export var RPMGauge: CompressedTexture2D
 @export var RPMNeedle: CompressedTexture2D
@@ -42,26 +43,31 @@ var speed: float = 0.0
 var averageFriction: int = 0
 var previousVelocity = Vector2(0,0)
 var allWheels: Array
+var angulerVelocityQueue: Array
+var previousTime = Time.get_unix_time_from_system()
+var previousPosition = Vector2(0,0)
 
 #Variables to create arbitary speed value
 var currentSpeed = 0.0
 
 #Controls turning momentum
 var angularVelocity = 0.0
-var momentOfIntertia = bodyWeight * 12 # Resistance of car to turning
+var momentOfIntertia
 
 #Debug
 var visualizeLines: bool = true
 @onready var debug = $Debug
 var velocityLine: Line2D
 var wheelLine: Line2D
+var turningLine: Line2D
 
 func _ready():
 	#Create Engine Object based off car object data
 	SimEngine = EngineNode.new(gearRatios, RPMLimit, RPMCurve, enginePower)
 	Globals.playerEngine = SimEngine
 	
-	
+	print(bodyWeight)
+	momentOfIntertia = bodyWeight * 12 # Resistance of car to turning
 	position = get_viewport_rect().get_center()
 	
 	allWheels = frontWheels.get_children() + rearWheels.get_children()
@@ -88,16 +94,21 @@ func _ready():
 		debugNode.add_child(velocityLine)
 		wheelLine = debug.get_node("WheelAngle").duplicate()
 		debugNode.add_child(wheelLine)
+		turningLine = debug.get_node("TurningAngle").duplicate()
+		debugNode.add_child(turningLine)
 	
 	#frontWheels.get_node("LeftWheel").traction = 0.1
 
 func _physics_process(delta):
 	handle_user_input()
+	#print(position)
 	
 	Globals.playerDelta = delta
+	Globals.playerWheels = allWheels
 	Globals.playerEngineChange.emit()
 	var power = SimEngine.EngineLogic(userThrottle, delta) * SPEED_FACTOR
 	var force = _AccelerateCar(power, delta)
+	#print(force)
 	
 	velocity = force
 	previousVelocity = force
@@ -108,6 +119,7 @@ func _physics_process(delta):
 	Globals.playerSpeed = int((velocityMagnitude/20))
 	
 	rotation_degrees = _RotateBody((velocityMagnitude * ROTATION_SENSITIVITY) / SPEED_FACTOR, delta)
+	previousPosition = global_position
 	move_and_slide()
 
 func _CalculateInverseForces(): #Calculate forces that would slow down the car (Friction/Drag/ect.)
@@ -136,14 +148,12 @@ func _AccelerateCar(power, delta):
 	#Calculate wheel slip from lack of traction
 	var tractionFactor = _TransmitPower(force, allWheels, delta)
 	
-	#print(_calculate_drag_factor(_ForceToMPH(force)))
-	
 	force *= tractionFactor
 	return force
 
 
-##Handles Anguler Velocity (the rate at which the car turns), mainly slows the "spin" speed of the car
-func _AngulerFriction(wheels, delta):
+##Handles Anguler Velocity (the rate at which the car turns), mainly slows the "spin" speed of the car/ returns to normal angle
+func _AngulerFriction(wheels: Array, rotationalAngle: float, delta: float):
 	var averageWheelAngle = 0
 	var angularFriction = 0
 	var wheelAngles = []
@@ -153,23 +163,30 @@ func _AngulerFriction(wheels, delta):
 		wheelAngles.append(globalAngle)
 	
 	averageWheelAngle = CalculateAverageAngle(wheelAngles) + 180
-
-	var velocityAngle = fmod((velocity.angle() * 180 / PI), 360.0)
-	velocityAngle = velocityAngle + 360 if velocityAngle < 0 else velocityAngle
 	
-	var angleDifference = angle_difference(deg_to_rad(velocityAngle), deg_to_rad(averageWheelAngle))
+	#var movement_direction = (global_position - previousPosition).normalized()  # Direction of movement
+	#var carMovementAngle = global_position.angle_to(previousPosition) * 180 / PI  # Angle relative to the X-axis
+	var movement_direction = (global_position - previousPosition)  # Direction of movement
+	var carMovementAngle = movement_direction.angle() * 180 / PI
+	carMovementAngle = carMovementAngle + 360 if carMovementAngle < 0 else carMovementAngle
+	print(carMovementAngle / delta)
+	
+	
+	var angleDifference = angle_difference(deg_to_rad(rotationalAngle), deg_to_rad(averageWheelAngle))
 	angleDifference = abs(rad_to_deg(angleDifference))
+	#print(velocityAngle)
 	
 	if visualizeLines:
 		VisualizeAngle(wheelLine, global_position, averageWheelAngle, 500)
-		VisualizeAngle(velocityLine, global_position, velocityAngle, 500)
+		VisualizeAngle(velocityLine, global_position, carMovementAngle, 500)
 	
 	var frictionMultiplier = clamp(pow(angleDifference / 90.0, 2), 0.0, 1.0) # Example of non-linear friction
 	angularFriction = BASE_ANGULAR_FRICTION + (BASE_ANGULAR_FRICTION * frictionMultiplier)
 	
-	return angularFriction * sign(angularVelocity) * delta
 	
 	#print("Average Wheel Angle: ", averageWheelAngle, " Velocity Angle: ", velocityAngle, " Difference: ", angleDifference)
+	return angularFriction * sign(angularVelocity) * delta
+	
 
 func CalculateAverageAngle(angles: Array):
 	var average_x = 0.0
@@ -189,6 +206,10 @@ func CalculateAverageAngle(angles: Array):
 
 func _TransmitPower(power: Vector2, wheels: Array, delta: float):
 	var deltaV = (power - previousVelocity).length()
+	var car_direction = (transform.basis_xform(Vector2.RIGHT).normalized()).rotated(deg_to_rad(-90))
+	#print("CAR DIRECTION: ", car_direction)
+	var forwardDeltaV = power.dot(car_direction.normalized()) * car_direction.normalized()
+	print("FORWARD DELTAV: ", forwardDeltaV)
 	var averageTraction = _AverageTraction(wheels)
 	var velocityChange = 0
 	var totalTraction = 0.0
@@ -205,40 +226,85 @@ func _TransmitPower(power: Vector2, wheels: Array, delta: float):
 			
 	return totalTraction / 4.0
 
+#func _AngulurVelocityQueue(newValue):
+	#var queue = angulerVelocityQueue
+	#var queueSize = queue.size()
+	#if queueSize >= 30:
+		#queue.pop_front()
+		#queue.push_back(newValue)
+	#else:
+		#queue.push_back(newValue)
+	#
+	#var avgValue = 0.0
+	#for element in queue:
+		#avgValue += element
+	##print(avgValue)
+
 func _RotateBody(velocityMagnitude, delta): ##Rotates wheels towards user input, then rotates car body to match
+	##!!! MAKE SURE TO DOUBLE CHECK ALL ANGLES ARE NORMALIZED
 	var targetRotationSpeed = clamp(velocityMagnitude, 0, MAX_ROTATION_SPEED)
 	var turnAngle = clamp(userSteering * maxSteeringAngle, -maxSteeringAngle, maxSteeringAngle) #Where the wheels should be facing in relation to the users input
 	var realAngle = _AdjustWheelRotation(frontWheels, turnAngle, delta) #Physical Angle of the wheels
+	#print("REAL ANGLE: ", realAngle)
 	var tractionOffset = (_CalculateAngularAdjustment(allWheels)) #Calculate effect of wheels having differnt traction values
 	
-	var bodyAngle = rotation_degrees
+	var currentAngle = rotation_degrees
+	var futureAngle = fmod(currentAngle + realAngle + tractionOffset, 360.0)
 	
-	var angularFriction = _AngulerFriction(allWheels, delta)
-		
+	var angularFriction = _AngulerFriction(allWheels, futureAngle, delta)
+	#print("ANGULAR FRICTION: ", angularFriction)
+	var dragFactor = _CalculateDragFactor(Globals.playerSpeed)
+	
+	
 	var steeringTorque = (userSteering * TORQUE_FACTOR * currentSpeed * delta) / momentOfIntertia #Calculate the car "carrying" its own momentum
+	#print("STEERING TORQUE: ", steeringTorque)
+	
+	
+	steeringTorque = steeringTorque * (1 / dragFactor) #Simulate the cars steering becoming unresponsive at high speeds
+	#print("Effective Torque: ", steeringTorque)
+	
+	var maximumTorque = MAX_TORQUE * (1/ dragFactor) #Prevent car from infinitly gaining speed
+	print("DRAG FACTOR: ", dragFactor)
+	#print("Maximum Torque: ", maximumTorque)
+	
+	#print("ANGULAR VELCOITY: ",angularVelocity)
 	angularVelocity -= angularFriction - steeringTorque
 	
-	angularVelocity = clamp(angularVelocity, -MAX_TORQUE, MAX_TORQUE)
-	print(angularVelocity)
+	angularVelocity = clamp(angularVelocity, -maximumTorque, maximumTorque) #Maximum limit on cars turning ability
 	
-	bodyAngle += angularVelocity
+	targetRotationSpeed *= (1/dragFactor) * delta
+	
+	futureAngle += angularVelocity
+	#_AngulurVelocityQueue(angularVelocity)
 	
 	#Introduce some form of drag factor
+	futureAngle = lerp(currentAngle, futureAngle, targetRotationSpeed)
+	futureAngle = fmod(futureAngle, 360.0)
 	
-	bodyAngle = lerp(bodyAngle, realAngle + bodyAngle + tractionOffset, targetRotationSpeed * delta)
-	bodyAngle = fmod(bodyAngle, 360.0)
+	#Calculate friction for wheels
+	var deltaAngle = futureAngle - rotation_degrees
+	var rotationIntensity = deltaAngle * pow(1.0+angularVelocity,2)
+	print("ROTATIONAL INTENSITY: ", abs(rotationIntensity))
 	
-	return bodyAngle
+	if visualizeLines:
+		VisualizeAngle(turningLine, global_position, rotation_degrees, rotationIntensity * 500) #Displays cars turn amount and force
+	
+	#Manually cancel out tiny changes in rotation
+	if abs(deltaAngle) < 0.1:
+		return rotation_degrees
+	
+	return futureAngle
 	
 	
-func _calculate_drag_factor(current_speed):
-	var drag_coefficient = 0.5  # Adjust this for the strength of the drag 
-	var max_drag_speed = 80.0     # Speed at which the drag effect becomes significant
-	var drag_exponent = 2        # Controls how quickly drag increases (higher = steeper increase)
+func _CalculateDragFactor(currentSpeed):
+	var drag_coefficient = 2  # Adjust for desired drag strength 
+	var max_drag_speed = 120.0   
+	var drag_exponent = 2
+	#print("SPEED: ", currentSpeed)
 	
-	var normalized_speed = clamp(current_speed / max_drag_speed, 0.0, 1.0)
-
-	return (1.0 + (drag_coefficient * pow(normalized_speed, drag_exponent)))
+	var normalized_speed = clamp(currentSpeed / max_drag_speed, 0.0, 1.0)  
+	var drag = drag_coefficient * pow(normalized_speed, drag_exponent)
+	return 1.0 + drag # Ensures there's always some baseline drag
 
 func _AdjustWheelRotation(wheelNode: Node2D, target_angle: float, delta: float):
 	var return_speed = 5.0
