@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://rlqw0ae27mvm" path="res://Assets/Sprites/UI/Gauges/WRX/WRXLight.png" id="4_gg6nm"]
 [ext_resource type="Texture2D" uid="uid://bq0neywrtvffi" path="res://Assets/Sprites/UI/Gauges/WRX/WRXSpeedometer.png" id="5_h8lv0"]
 [ext_resource type="Texture2D" uid="uid://d1lp18oyrsg81" path="res://Assets/Sprites/UI/Gauges/WRX/WRXSpeedometerNeedle.png" id="6_akfnh"]
-[ext_resource type="Texture2D" uid="uid://dhjhd43e1uax3" path="res://Assets/Sprites/UI/Gauges/WRX/WRXElectronic.png" id="7_7iqn4"]
+[ext_resource type="PackedScene" uid="uid://cn863gvdu2ksc" path="res://Assets/Sprites/UI/Gauges/WRX/speedometer_electronics.tscn" id="7_3glio"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fslhh"]
 
@@ -172,11 +172,9 @@ offset_bottom = 40.0
 pivot_offset = Vector2(142, 142)
 texture = ExtResource("6_akfnh")
 
-[node name="Electronic" type="TextureRect" parent="SpeedometerGauge"]
+[node name="SpeedometerElectronics" parent="SpeedometerGauge" instance=ExtResource("7_3glio")]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("7_7iqn4")
+offset_right = 284.0
+offset_bottom = 284.0
 
 [connection signal="gearChanged" from="." to="." method="_on_gear_changed"]
-[connection signal="menuUpdated" from="." to="." method="_on_menu_updated"]

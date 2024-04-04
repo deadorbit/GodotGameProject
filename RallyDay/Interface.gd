@@ -8,6 +8,8 @@ const RPMLightOn: Color = Color(0.916, 0, 0.124)
 @onready var SpeedText = $HBoxContainer/Text/SpeedText
 @onready var RPMNeedle = $RPMGauge/Needle
 @onready var RPMLight = $RPMGauge/Light
+@onready var SpeedometerNeedle = $SpeedometerGauge/Needle
+@onready var SpeedometerElectronic = $SpeedometerGauge/SpeedometerElectronics
 #@onready var RPMBar: ProgressBar = $RPMBar
 #@onready var speedBar: ProgressBar = $SpeedBar
 
@@ -27,7 +29,7 @@ func _on_gear_changed():
 
 func _on_playerEngineChange():
 	var playerEngine: EngineNode = Globals.playerEngine
-	var playerSpeed: int = round(Globals.playerSpeed)
+	var playerSpeed: = Globals.playerSpeed
 	var RPM = playerEngine.currentRPM
 	var currentGear = playerEngine.currentGear
 	var gearRatios = playerEngine.gearRatios
@@ -35,6 +37,7 @@ func _on_playerEngineChange():
 	var gearLimit = revLimit / gearRatios[currentGear-1]
 	
 	_UpdateRPMGauge(RPM, gearLimit)
+	_UpdateSpeedometerGauge(playerSpeed)
 	#RPMBar.value = RPM/gearLimit
 	#speedBar.value = playerSpeed
 	
@@ -44,7 +47,7 @@ func _on_playerEngineChange():
 func _UpdateRPMGauge(RPM, gearLimit):
 	var RevPercent = RPM/gearLimit
 	var revMaxAngle = Globals.playerMaxRPMGaugeAngle
-	var revAngle = clamp(RevPercent * revMaxAngle,0, revMaxAngle)
+	var revAngle = clamp(RevPercent * revMaxAngle,0.0, revMaxAngle)
 	
 	if (RevPercent > 0.8):
 		RPMLight.modulate = RPMLightOn
@@ -52,7 +55,13 @@ func _UpdateRPMGauge(RPM, gearLimit):
 		RPMLight.modulate = RPMLightOff
 
 	# Update rotation using global delta
-	RPMNeedle.rotation_degrees = lerp(RPMNeedle.rotation_degrees, revAngle, 1 * Globals.playerDelta)
+	RPMNeedle.rotation_degrees = lerp(RPMNeedle.rotation_degrees, revAngle, 2 * Globals.playerDelta)
 	
-func _UpdateSpeedometerGauge(speed):
-	var speedPercent = 0.0
+func _UpdateSpeedometerGauge(speed: float):
+	var maxSpeedAngle = Globals.playerMaxSpeedometerAngle
+	var maxSpeed = Globals.playerMaxSpeedometerSpeed
+	var speedAngle: float = float(speed/maxSpeed) * maxSpeedAngle
+	
+	SpeedometerNeedle.rotation_degrees = lerp(SpeedometerNeedle.rotation_degrees, speedAngle, 2 * Globals.playerDelta)
+	
+	print("SPEEDOMETER ANGLE: ", speedAngle)

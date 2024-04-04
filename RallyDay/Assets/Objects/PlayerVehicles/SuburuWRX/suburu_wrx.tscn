@@ -25,23 +25,26 @@ RPMLight = ExtResource("5_nljee")
 SpeedometerGauge = ExtResource("6_8f8ns")
 SpeedometerNeedle = ExtResource("7_dutw8")
 SpeedometerElectronic = ExtResource("8_hv50f")
-maxRPMGaugeAngle = 252
-maxSpeedometerAngle = 245
+maxRPMGaugeAngle = 252.0
+maxSpeedometerAngle = 245.0
+maxSpeedometerSpeed = 180.0
 
 [node name="LeftWheel" parent="FrontWheels" index="0"]
 isDrivingWheel = true
 powerBias = 0.5
 
 [node name="RightWheel" parent="FrontWheels" index="1"]
-position = Vector2(27.5551, 2)
 isDrivingWheel = true
 powerBias = 0.5
+
+[node name="RearWheels" parent="." index="1"]
+position = Vector2(0, 74)
 
 [node name="LeftWheel" parent="RearWheels" index="0"]
 position = Vector2(-34, 0)
 
 [node name="RigthWheel" parent="RearWheels" index="1"]
-position = Vector2(30, 0)
+position = Vector2(34, 0)
 
 [node name="CarHull" parent="." index="2"]
 scale = Vector2(0.1, 0.1)

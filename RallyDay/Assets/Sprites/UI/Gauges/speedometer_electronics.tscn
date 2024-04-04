@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwmq57m7doutw"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_6ggn3"]
+
+[node name="SpeedometerElectronics" type="TextureRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("PlaceholderTexture2D_6ggn3")
+
+[node name="ElectronicsLabel" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

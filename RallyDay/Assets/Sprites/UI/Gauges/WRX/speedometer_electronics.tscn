@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://cn863gvdu2ksc"]
+
+[ext_resource type="PackedScene" uid="uid://dwmq57m7doutw" path="res://Assets/Sprites/UI/Gauges/speedometer_electronics.tscn" id="1_74ahg"]
+[ext_resource type="Texture2D" uid="uid://dhjhd43e1uax3" path="res://Assets/Sprites/UI/Gauges/WRX/WRXElectronic.png" id="2_cchmu"]
+[ext_resource type="FontFile" uid="uid://btpl2wnx0wcw0" path="res://Assets/Sprites/Common/fonts/connection_ii/ConnectionII.otf" id="3_2lsch"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_csrgm"]
+font = ExtResource("3_2lsch")
+font_size = 17
+font_color = Color(0.101961, 0.168627, 0.0862745, 1)
+outline_color = Color(0, 0, 0, 1)
+
+[node name="SpeedometerElectronics" instance=ExtResource("1_74ahg")]
+texture = ExtResource("2_cchmu")
+
+[node name="ElectronicsLabel" parent="." index="0"]
+offset_left = 96.0
+offset_top = 207.0
+offset_right = 182.0
+offset_bottom = 247.0
+text = "SPEED
+MPH: 0"
+label_settings = SubResource("LabelSettings_csrgm")
+vertical_alignment = 2

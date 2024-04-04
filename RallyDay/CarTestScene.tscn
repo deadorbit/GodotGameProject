@@ -10,7 +10,9 @@ script = ExtResource("1_ewxe2")
 [node name="SuburuWRX" parent="." instance=ExtResource("1_3exke")]
 position = Vector2(833.508, -27.2676)
 
-[node name="Ground" type="Sprite2D" parent="."]
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="Ground" type="Sprite2D" parent="Ground"]
 z_index = -2
 texture_repeat = 2
 position = Vector2(108, 148)
@@ -18,3 +20,9 @@ texture = ExtResource("3_8somd")
 offset = Vector2(-91, -134)
 region_enabled = true
 region_rect = Rect2(-16.8308, -16.2923, 19371.9, 19211.3)
+
+[node name="Line2D" type="Line2D" parent="Ground"]
+modulate = Color(1, 1, 0, 0.466667)
+z_index = -1
+position = Vector2(0, -1)
+points = PackedVector2Array(0, 0, 0, -300, 0, -10000, 0, -25000)
