@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cintlye5nur78"]
+
+[ext_resource type="Script" path="res://Assets/Scenes/Master.gd" id="1_t3adw"]
+[ext_resource type="PackedScene" uid="uid://d3qm8ebdc3mi5" path="res://Assets/Scenes/UI/Loading/LoadingUI.tscn" id="2_2ltb7"]
+
+[node name="Master" type="Node2D"]
+script = ExtResource("1_t3adw")
+
+[node name="LoadingUi" parent="." instance=ExtResource("2_2ltb7")]
+script = null

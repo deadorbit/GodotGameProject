@@ -6,7 +6,7 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_csrgm"]
 font = ExtResource("3_2lsch")
-font_size = 17
+font_size = 15
 font_color = Color(0.101961, 0.168627, 0.0862745, 1)
 outline_color = Color(0, 0, 0, 1)
 
@@ -14,11 +14,24 @@ outline_color = Color(0, 0, 0, 1)
 texture = ExtResource("2_cchmu")
 
 [node name="ElectronicsLabel" parent="." index="0"]
-offset_left = 96.0
-offset_top = 207.0
-offset_right = 182.0
+offset_left = 93.0
+offset_top = 206.0
+offset_right = 138.0
 offset_bottom = 247.0
 text = "SPEED
-MPH: 0"
+0"
 label_settings = SubResource("LabelSettings_csrgm")
-vertical_alignment = 2
+horizontal_alignment = 2
+vertical_alignment = 3
+
+[node name="ElectronicsGearLabel" type="Label" parent="." index="1"]
+layout_mode = 0
+offset_left = 142.0
+offset_top = 206.0
+offset_right = 180.0
+offset_bottom = 247.0
+text = "GEAR
+1"
+label_settings = SubResource("LabelSettings_csrgm")
+horizontal_alignment = 2
+vertical_alignment = 3

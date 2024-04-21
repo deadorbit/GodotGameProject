@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4xt4ik685iv8"]
+
+[ext_resource type="Script" path="res://Assets/Scenes/Phases/MainMenu.gd" id="1_o4q4s"]
+[ext_resource type="Texture2D" uid="uid://c2fhlxapjgktn" path="res://Assets/Sprites/Common/R.png" id="1_pxpxd"]
+[ext_resource type="Texture2D" uid="uid://dvg3duer2wct1" path="res://Assets/Sprites/icon.svg" id="3_mbg7e"]
+[ext_resource type="PackedScene" uid="uid://c65sioji53f2o" path="res://Assets/Scenes/UI/MainMenuUI/MainMenuUI.tscn" id="4_pbehb"]
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource("1_o4q4s")
+
+[node name="MenuDecorations" type="Node2D" parent="."]
+
+[node name="Ground" type="Sprite2D" parent="MenuDecorations"]
+texture_repeat = 2
+texture = ExtResource("1_pxpxd")
+region_enabled = true
+region_rect = Rect2(0, 0, 10240, 10240)
+
+[node name="Godot" type="Sprite2D" parent="MenuDecorations"]
+position = Vector2(-92, 533)
+texture = ExtResource("3_mbg7e")
+
+[node name="CameraNode" type="Node2D" parent="."]
+position = Vector2(0, 200)
+
+[node name="MainMenuCamera" type="Camera2D" parent="CameraNode"]
+
+[node name="MainMenuUI" parent="." instance=ExtResource("4_pbehb")]

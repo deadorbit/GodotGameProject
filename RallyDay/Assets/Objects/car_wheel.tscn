@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://u300sf5gljn"]
+[gd_scene load_steps=8 format=3 uid="uid://u300sf5gljn"]
 
 [ext_resource type="Texture2D" uid="uid://dv8o23muvf6yn" path="res://Assets/Sprites/PlayerVehicles/Common/Tire.png" id="1_7i5a8"]
 [ext_resource type="Script" path="res://Assets/Objects/car_wheel.gd" id="1_p1if1"]
 [ext_resource type="Texture2D" uid="uid://db38visa7lu5y" path="res://Assets/Sprites/Common/Particles/kenney_particle_pack/dirt_01.png" id="3_xvd80"]
+[ext_resource type="Texture2D" uid="uid://oqwyvjb5e8fl" path="res://Assets/Sprites/Common/Particles/kenney_particle_pack/dirt_03.png" id="4_jgohs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2sies"]
 size = Vector2(150.733, 204.611)
@@ -23,7 +24,14 @@ linear_accel_max = 30.0
 scale_min = 0.08
 scale_max = 0.08
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o04b4"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_min = 0.05
+scale_max = 0.05
+
 [node name="CarWheel" type="StaticBody2D"]
+z_index = 1
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_p1if1")
@@ -39,7 +47,6 @@ texture = ExtResource("1_7i5a8")
 
 [node name="DirtEmitter" type="GPUParticles2D" parent="."]
 modulate = Color(0.121569, 0.0823529, 0.0156863, 1)
-z_index = -1
 position = Vector2(3.39221, 45.1194)
 emitting = false
 amount = 50
@@ -47,3 +54,12 @@ process_material = SubResource("ParticleProcessMaterial_sodt8")
 texture = ExtResource("3_xvd80")
 lifetime = 4.0
 one_shot = true
+
+[node name="TrailEmitter" type="GPUParticles2D" parent="."]
+modulate = Color(0, 0, 0, 0.572549)
+position = Vector2(0, 88)
+emitting = false
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_o04b4")
+texture = ExtResource("4_jgohs")
+lifetime = 20.0

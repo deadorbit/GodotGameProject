@@ -1,0 +1,90 @@
+[gd_scene load_steps=8 format=3 uid="uid://bd3i4eh4wowtj"]
+
+[ext_resource type="Texture2D" uid="uid://dvg3duer2wct1" path="res://Assets/Sprites/icon.svg" id="1_agx1f"]
+[ext_resource type="StyleBox" uid="uid://c17gqngx2wau1" path="res://Assets/Scenes/UI/MainMenuUI/MainMenuCarCardStyle.tres" id="2_dkq6a"]
+[ext_resource type="ButtonGroup" uid="uid://ccu3t5h178kok" path="res://Assets/Scenes/UI/MainMenuUI/CarCardButtonGroup.tres" id="3_tu1ho"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a5jk3"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.0980392, 0.0980392, 0.0980392, 0.47451)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 0.87451)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_25lfs"]
+bg_color = Color(0, 0.0117647, 0, 0.945098)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 0.478431)
+border_blend = true
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32sex"]
+bg_color = Color(0, 0.0823529, 0.0117647, 0.945098)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 0.478431)
+border_blend = true
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g57ty"]
+bg_color = Color(0, 0.286275, 0.0901961, 0.945098)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.670588, 0.870588, 0.890196, 0.643137)
+border_blend = true
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 1
+
+[node name="Card" type="PanelContainer"]
+offset_right = 155.0
+offset_bottom = 213.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_a5jk3")
+
+[node name="CardV" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CardV"]
+layout_mode = 2
+texture = ExtResource("1_agx1f")
+
+[node name="Stat" type="Label" parent="CardV"]
+layout_mode = 2
+text = "Some Cool Car Stats"
+
+[node name="Stat2" type="Label" parent="CardV"]
+layout_mode = 2
+text = "Just So Cool"
+
+[node name="Stat3" type="Label" parent="CardV"]
+layout_mode = 2
+text = "Choose This one"
+
+[node name="Select" type="Button" parent="CardV"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 0)
+theme_override_styles/normal = ExtResource("2_dkq6a")
+theme_override_styles/hover = SubResource("StyleBoxFlat_25lfs")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_32sex")
+theme_override_styles/focus = SubResource("StyleBoxFlat_g57ty")
+toggle_mode = true
+button_group = ExtResource("3_tu1ho")
+text = "Select"

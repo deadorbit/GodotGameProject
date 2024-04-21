@@ -1,0 +1,53 @@
+[gd_scene load_steps=4 format=3 uid="uid://bwvgw7qkpnaen"]
+
+[ext_resource type="Script" path="res://Assets/Scenes/UI/MainMenuUI/main_menu_button.gd" id="1_dabom"]
+
+[sub_resource type="Animation" id="Animation_bu4km"]
+resource_name = "scale"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.05, 1.05), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_iy8k4"]
+_data = {
+"scale": SubResource("Animation_bu4km")
+}
+
+[node name="MainMenuButton" type="Button"]
+custom_minimum_size = Vector2(256, 32)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -18.0
+offset_right = 128.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.0448, 1.0448)
+pivot_offset = Vector2(128, 18)
+theme_override_font_sizes/font_size = 20
+text = "MainMenuButton"
+script = ExtResource("1_dabom")
+
+[node name="MenuButtonPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_iy8k4")
+}
+
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

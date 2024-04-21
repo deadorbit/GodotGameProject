@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://wdkruc7yri6d"]
+[gd_scene load_steps=13 format=3 uid="uid://wdkruc7yri6d"]
 
 [ext_resource type="PackedScene" uid="uid://8oero4ukwgjt" path="res://Assets/Objects/PlayerVehicles/car_base.tscn" id="1_ydicd"]
 [ext_resource type="Texture2D" uid="uid://b7up30wula7ot" path="res://Assets/Sprites/PlayerVehicles/SuburuWRX2004/SuburuWRX2004.png" id="2_qckx3"]
@@ -10,8 +10,18 @@
 [ext_resource type="Texture2D" uid="uid://d1lp18oyrsg81" path="res://Assets/Sprites/UI/Gauges/WRX/WRXSpeedometerNeedle.png" id="7_dutw8"]
 [ext_resource type="Texture2D" uid="uid://dhjhd43e1uax3" path="res://Assets/Sprites/UI/Gauges/WRX/WRXElectronic.png" id="8_hv50f"]
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_lttau"]
+polygon = PackedVector2Array(30750, 135167, -31500, 133577, -33000, 103367, -32250, 54077, -29250, -39733, -27750, -93793, -20250, -152623, 21000, -152623, 27750, -117643, 27750, -89023, 29250, -52453, 32250, 58847, 32250, 104957)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_es1a2"]
+closed = false
+polygon = PackedVector2Array(-420, 850, -410, 850, -400, 910, -330, 910, -310, 850, -220, 850, -190, 910, 180, 910, 210, 850, 300, 850, 310, 910, 400, 910, 410, 850, 420, 850)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_akh0f"]
+closed = false
+polygon = PackedVector2Array(-420, 850, -410, 850, -400, 910, -330, 910, -310, 850, -220, 850, -190, 910, 180, 910, 210, 850, 300, 850, 310, 910, 400, 910, 410, 850, 420, 850)
+
 [node name="SuburuWRX" instance=ExtResource("1_ydicd")]
-position = Vector2(0, 40)
 turn_speed = 20
 maxSteeringAngle = 60
 RPMCurve = ExtResource("2_ybusj")
@@ -28,6 +38,11 @@ SpeedometerElectronic = ExtResource("8_hv50f")
 maxRPMGaugeAngle = 252.0
 maxSpeedometerAngle = 245.0
 maxSpeedometerSpeed = 180.0
+reverseGear = 0.3
+breakEfficency = 0.8
+
+[node name="FrontWheels" parent="." index="0"]
+position = Vector2(0, 0)
 
 [node name="LeftWheel" parent="FrontWheels" index="0"]
 isDrivingWheel = true
@@ -38,7 +53,7 @@ isDrivingWheel = true
 powerBias = 0.5
 
 [node name="RearWheels" parent="." index="1"]
-position = Vector2(0, 74)
+position = Vector2(0, 114)
 
 [node name="LeftWheel" parent="RearWheels" index="0"]
 position = Vector2(-34, 0)
@@ -47,24 +62,49 @@ position = Vector2(-34, 0)
 position = Vector2(34, 0)
 
 [node name="CarHull" parent="." index="2"]
+clip_children = 2
+position = Vector2(0, 57)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_qckx3")
 
+[node name="BodyLightOccluder" parent="CarHull" index="0"]
+occluder = SubResource("OccluderPolygon2D_lttau")
+
+[node name="TailLightOccluder" parent="CarHull" index="1"]
+occluder = SubResource("OccluderPolygon2D_es1a2")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="CarHull" index="2"]
+occluder = SubResource("OccluderPolygon2D_akh0f")
+
 [node name="FrontBumper" parent="." index="3"]
+visible = false
+position = Vector2(0, 40)
 polygon = PackedVector2Array(37.1416, -62.2762, 33.5431, -72.7768, 31.4194, -76.9652, 28.1159, -79.7379, 24.5173, -81.9796, 17.0253, -83.5724, 10.9798, -84.6385, -11.4089, -84.6342, -17.0131, -83.3954, -21.7915, -82.9824, -27.2251, -80.6227, -30.8826, -77.0832, -32.6523, -74.5466, -34.4811, -70.5941, -37.2709, -61.7629)
 
 [node name="RearBumper" parent="." index="4"]
+visible = false
+position = Vector2(0, 40)
 polygon = PackedVector2Array(42.7095, 96.9515, -42.4665, 97.3819, -42.1563, 102.031, -40.188, 108.902, -39.9515, 116.656, -38.2408, 119.016, 16.091, 119.311, 38.4118, 118.898, 39.8866, 116.597, 40.1226, 107.925, 42.0952, 102.094)
 
 [node name="SideLower" parent="." index="5"]
+visible = false
+position = Vector2(0, 40)
 polygon = PackedVector2Array(42.5307, 96.8843, 43.3725, 88.1151, 43.9338, 76.4695, 43.7233, 64.8941, 43.3024, 51.8348, 42.2501, 35.8397, 39.935, -11.0039, -40.2267, -10.8635, -41.7701, 27.7912, -43.7344, 63.6506, -43.8747, 77.4816, -43.4538, 89.057, -42.4014, 97.4053)
 
 [node name="SideUpper" parent="." index="6"]
+visible = false
+position = Vector2(0, -27)
 polygon = PackedVector2Array(40.1391, 56.2735, -40.3684, 56.1901, -39.2162, 37.6406, -40.077, 29.0987, -39.8277, 18.3476, -37.0033, 5.192, 37.2478, 4.96902, 38.5787, 10.9075, 39.8974, 20.8629, 39.9966, 28.8495, 39.1533, 37.6794)
 
-[node name="Camera2D" parent="." index="7"]
-position = Vector2(-10, -446.885)
-zoom = Vector2(0.5, 0.5)
+[node name="PlayerCamera" parent="." index="7"]
+position = Vector2(0, -400)
 
 [node name="WheelAngle" parent="Debug" index="0"]
 position = Vector2(0, -0.333344)
+
+[node name="RTailLight" parent="TailLightPoints" index="0"]
+modulate = Color(1, 1, 1, 0.32549)
+position = Vector2(0.333333, 0.792453)
+
+[node name="LTailLight" parent="TailLightPoints" index="1"]
+position = Vector2(-0.36, 0.792453)

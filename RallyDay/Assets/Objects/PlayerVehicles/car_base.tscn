@@ -1,11 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://8oero4ukwgjt"]
+[gd_scene load_steps=6 format=3 uid="uid://8oero4ukwgjt"]
 
 [ext_resource type="Script" path="res://Assets/Objects/PlayerVehicles/car_base.gd" id="1_v4eur"]
 [ext_resource type="PackedScene" uid="uid://u300sf5gljn" path="res://Assets/Objects/car_wheel.tscn" id="2_s54dr"]
+[ext_resource type="PackedScene" uid="uid://c3ek27a8e5mxp" path="res://Assets/Objects/player_camera.tscn" id="3_01txt"]
+[ext_resource type="Texture2D" uid="uid://wt2fs0nmv3tb" path="res://Assets/Sprites/Common/Particles/kenney_particle_pack/circle_05.png" id="4_72d8f"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_asi8j"]
 
 [node name="CarBase" type="CharacterBody2D"]
+collision_layer = 5
+collision_mask = 5
 script = ExtResource("1_v4eur")
 
 [node name="FrontWheels" type="Node2D" parent="."]
@@ -31,31 +35,33 @@ position = Vector2(27, 0)
 scale = Vector2(0.2, 0.2)
 
 [node name="CarHull" type="Sprite2D" parent="."]
+z_index = 2
 position = Vector2(-5.96046e-08, 17)
 scale = Vector2(75, 159)
 texture = SubResource("PlaceholderTexture2D_asi8j")
 
+[node name="BodyLightOccluder" type="LightOccluder2D" parent="CarHull"]
+position = Vector2(7.94728e-10, -0.106918)
+scale = Vector2(0.0133333, 0.00628931)
+
+[node name="TailLightOccluder" type="LightOccluder2D" parent="CarHull"]
+position = Vector2(7.94728e-10, -0.106918)
+scale = Vector2(0.0133333, 0.00628931)
+
 [node name="FrontBumper" type="CollisionPolygon2D" parent="."]
-visible = false
 polygon = PackedVector2Array(37, -44, 36, -63, -34, -62, -37, -43)
 
 [node name="RearBumper" type="CollisionPolygon2D" parent="."]
-visible = false
 polygon = PackedVector2Array(37, 96, 38, 76, -37, 77, -38, 96)
 
 [node name="SideLower" type="CollisionPolygon2D" parent="."]
-visible = false
 polygon = PackedVector2Array(37, 76, 37, 23, -38, 23, -37, 77)
 
 [node name="SideUpper" type="CollisionPolygon2D" parent="."]
-visible = false
 position = Vector2(0, -67)
 polygon = PackedVector2Array(38, 90, 37, 23, -38, 23, -38, 91)
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(-10, -930)
-ignore_rotation = false
-zoom = Vector2(0.25, 0.25)
+[node name="PlayerCamera" parent="." instance=ExtResource("3_01txt")]
 
 [node name="Debug" type="Node2D" parent="."]
 
@@ -73,3 +79,31 @@ default_color = Color(0, 0, 0.858824, 1)
 z_index = 10
 width = 2.0
 default_color = Color(0.988235, 0.94902, 0.0627451, 1)
+
+[node name="TailLightPoints" type="Node2D" parent="."]
+position = Vector2(-5.96046e-08, 17)
+scale = Vector2(75, 159)
+
+[node name="RTailLight" type="PointLight2D" parent="TailLightPoints"]
+scale = Vector2(0.01, 0.01)
+color = Color(0.894118, 0, 0.180392, 1)
+energy = 3.0
+blend_mode = 2
+range_z_max = 1
+shadow_enabled = true
+shadow_filter = 2
+shadow_filter_smooth = 5.0
+texture = ExtResource("4_72d8f")
+texture_scale = 0.5
+
+[node name="LTailLight" type="PointLight2D" parent="TailLightPoints"]
+scale = Vector2(0.01, 0.01)
+color = Color(0.894118, 0, 0.180392, 1)
+energy = 3.0
+blend_mode = 2
+range_z_max = 1
+shadow_enabled = true
+shadow_filter = 2
+shadow_filter_smooth = 5.0
+texture = ExtResource("4_72d8f")
+texture_scale = 0.5

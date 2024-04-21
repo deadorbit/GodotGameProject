@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgcsl0stm7eal"]
+
+[ext_resource type="Texture2D" uid="uid://cdretc2ucp2xt" path="res://Assets/Sprites/Common/Particles/kenney_particle_pack/scorch_02.png" id="1_ba3l5"]
+
+[node name="CollisionEffect" type="Sprite2D"]
+modulate = Color(0.164706, 0.164706, 0.164706, 0.490196)
+texture = ExtResource("1_ba3l5")

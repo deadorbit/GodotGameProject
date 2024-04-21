@@ -1,0 +1,173 @@
+[gd_scene load_steps=9 format=3 uid="uid://c65sioji53f2o"]
+
+[ext_resource type="Script" path="res://Assets/Scenes/UI/MainMenuUI/MainMenuUI.gd" id="1_57vr8"]
+[ext_resource type="Shader" path="res://Assets/Objects/Graphics/UIBlur.gdshader" id="1_ptwdm"]
+[ext_resource type="Texture2D" uid="uid://vm7etpr8i77l" path="res://Assets/Sprites/UI/MainMenu/gamelogo.png" id="2_im7p5"]
+[ext_resource type="PackedScene" uid="uid://bd3i4eh4wowtj" path="res://Assets/Scenes/UI/MainMenuUI/MainMenuCarCardtscn.tscn" id="3_te4co"]
+[ext_resource type="PackedScene" uid="uid://bwvgw7qkpnaen" path="res://Assets/Scenes/UI/MainMenuUI/main_menu_button.tscn" id="4_46fe2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u18d4"]
+shader = ExtResource("1_ptwdm")
+shader_parameter/lod = 1.0
+
+[sub_resource type="Animation" id="Animation_j57sm"]
+resource_name = "StageFirstToSecond"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MenuFirstStage:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1200, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MenuSecondStage:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -1200), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rd7oe"]
+_data = {
+"StageFirstToSecond": SubResource("Animation_j57sm")
+}
+
+[node name="MainMenuUI" type="CanvasLayer"]
+script = ExtResource("1_57vr8")
+
+[node name="BlurContainer" type="BoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BlurEffect" type="ColorRect" parent="BlurContainer"]
+material = SubResource("ShaderMaterial_u18d4")
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 0)
+
+[node name="MenuSecondStage" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="MenuSecondStage"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -413.0
+offset_top = -266.0
+offset_right = 387.0
+offset_bottom = 134.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(400, 200)
+
+[node name="CardContainer" type="GridContainer" parent="MenuSecondStage/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CardContainer" type="ScrollContainer" parent="MenuSecondStage/Panel/CardContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+vertical_scroll_mode = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuSecondStage/Panel/CardContainer/CardContainer"]
+layout_mode = 2
+
+[node name="CardA" parent="MenuSecondStage/Panel/CardContainer/CardContainer/HBoxContainer" instance=ExtResource("3_te4co")]
+layout_mode = 2
+
+[node name="CardB" parent="MenuSecondStage/Panel/CardContainer/CardContainer/HBoxContainer" instance=ExtResource("3_te4co")]
+layout_mode = 2
+
+[node name="CardC" parent="MenuSecondStage/Panel/CardContainer/CardContainer/HBoxContainer" instance=ExtResource("3_te4co")]
+layout_mode = 2
+
+[node name="MenuFirstStage" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameLogo" type="TextureRect" parent="MenuFirstStage"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -256.0
+offset_top = 56.0
+offset_right = 256.0
+offset_bottom = 362.0
+grow_horizontal = 2
+scale = Vector2(1, 0.5)
+pivot_offset = Vector2(256, 0)
+texture = ExtResource("2_im7p5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuFirstStage"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -74.0
+offset_right = 128.0
+offset_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(128, 74)
+theme_override_constants/separation = 20
+
+[node name="StartButton" parent="MenuFirstStage/VBoxContainer" instance=ExtResource("4_46fe2")]
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../OptionsButton")
+focus_next = NodePath("../OptionsButton")
+text = "Start Game"
+
+[node name="OptionsButton" parent="MenuFirstStage/VBoxContainer" instance=ExtResource("4_46fe2")]
+layout_mode = 2
+text = "Options"
+
+[node name="ExitButton" parent="MenuFirstStage/VBoxContainer" instance=ExtResource("4_46fe2")]
+layout_mode = 2
+text = "Exit Game"
+
+[node name="MainMenuPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_rd7oe")
+}
+
+[connection signal="PlayGame" from="." to="." method="_on_play_game"]
+[connection signal="focus_entered" from="MenuFirstStage/VBoxContainer/StartButton" to="." method="_on_start_button_focus_entered"]
+[connection signal="pressed" from="MenuFirstStage/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="focus_entered" from="MenuFirstStage/VBoxContainer/OptionsButton" to="." method="_on_options_button_focus_entered"]
